@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    region: ap-southeast-2
+    image: ami-d9fe9be
+    ins_type: t2.micro
+    keypair: your-key-pair
+  tasks:
+    - name: launch EC2 
+      ec2:
+        region: "{{ region }}"
+        key_name: "{{ keypair }}"
+        instance_type: "{{ ins_type }}"
+        image: "{{ image }}"
+        wait: yes
+        group: sg_webserver_apsydney
+        instance_tags:
+          Name: test02
+          env: test
+        exact_count: 3
+        count_tag:
+          group: test
